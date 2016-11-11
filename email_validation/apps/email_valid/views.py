@@ -9,15 +9,21 @@ def index(request):
     return render(request, "email_valid/index.html")
 
 def process(request):
-    email = request.POST  
+    email = request.POST['email']
+    print(email)
     if not email:
-        message.add_message(request, messages.INFO, "Email cannot be blank")
+        messages.error(request, "Email cannot be blank")
         return redirect("/")
-
+    elif not EMAIL_REGEX.match(request.POST['email']):
+        messages.error(request, "Must be a valid email")
+        return redirect("/")
     Email.objects.create(email=email)
-    return render(request, "email_valid/success.html")
+    id = Email.objects.id
+    return redirect('/success/<id>')
 
-def success(request):
-
+def success(request, id):
+    context = {
+        'emails': Email.objects.all(),
+        'currents': Email.objects.all().filter(id=id)
+    }
     return render(request, "email_valid/success.html", context)
-        

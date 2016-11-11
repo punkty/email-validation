@@ -12,7 +12,8 @@
     {% endfor %}
     {% endif %}
     <h1>E-mail Validation</h1>
-    <form action="/process" methods='POST'>
+    <form action="/process" method='POST'>
+      {% csrf_token %}
         Email: <input type="text" name="email">
         <input type="submit" value="Submit">
     </form>
