@@ -5,12 +5,13 @@
     <title>Success</title>
 </head>
 <body>
-  {% for current in currents %}
-<h3>The email address you entered {{current.email}}is a valid email address! Thank you!</h3>
-{% endfor %}
+{% csrf_token %}
+<h3>The email address you entered {{request.session.email }} is a valid email address! Thank you!</h3>
+
 <h5>Email adddresses Entered</h5>
 {% for email in emails %}
 <p> {{ email.email }}  {{ email.created_at }}</p>
 {% endfor %}
+<a href="/clear"><button type="button" name="clear">Clear</button></a>
 </body>
 </html>

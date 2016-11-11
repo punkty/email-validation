@@ -4,5 +4,6 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^process', views.process),
-    url(r'^success/(?P<id>\d+)$', views.success),
+    url(r'^success', views.success),
+    url(r'^clear', views.clear)
 ]

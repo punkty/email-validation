@@ -17,13 +17,20 @@ def process(request):
     elif not EMAIL_REGEX.match(request.POST['email']):
         messages.error(request, "Must be a valid email")
         return redirect("/")
-    Email.objects.create(email=email)
-    id = Email.objects.id
-    return redirect('/success/<id>')
 
-def success(request, id):
+    request.session['email'] = email
+    Email.objects.create(email=email)
+
+    return redirect('/success')
+
+def success(request):
+    if "email" not in request.session:
+        return redirect("/")
     context = {
         'emails': Email.objects.all(),
-        'currents': Email.objects.all().filter(id=id)
     }
     return render(request, "email_valid/success.html", context)
+
+def clear(request):
+    request.session.clear()
+    return redirect('/')
